@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <iomanip>
 
 const int MAX_CONTACTS = 8;
 
@@ -39,40 +40,19 @@ class PhoneBook
 		Contact contacts[MAX_CONTACTS];
 		int numContacts;
 
-		std::string truncateString(const std::string& str, int maxLength) const {
-			if (str.length() <= static_cast<size_t>(maxLength)) {
-				return str;
-			} else {
-				return str.substr(0, maxLength - 1) + ".";
-			}
-		}
+		std::string truncateString(const std::string& str, int maxLength) const ;
 
 	public:
 	//Constructor
 		PhoneBook() : numContacts(0) {}
 
-    void addContact() {
-        if (numContacts == MAX_CONTACTS) {
-            std::cout << "Phonebook is full. Cannot add more contacts." << std::endl;
-            return;
-        }
+		Contact getContact(int ix) const;
 
-        std::string firstName, lastName, nickname, phoneNumber, darkestSecret;
-        std::cout << "First Name: ";
-        std::cin >> firstName;
-        std::cout << "Last Name: ";
-        std::cin >> lastName;
-        std::cout << "Nickname: ";
-        std::cin >> nickname;
-        std::cout << "Phone Number: ";
-        std::cin >> phoneNumber;
-        std::cout << "Darkest Secret: ";
-        std::cin >> darkestSecret;
+		void addContact() ;
 
-        contacts[numContacts] = Contact(firstName, lastName, nickname, phoneNumber, darkestSecret);
-        numContacts++;
-    }
+		void displayContacts() const ;
 
+		int searchContact() const ;
 };
 
 #endif
