@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <cctype> 
 
 const int MAX_CONTACTS = 8;
 

@@ -2,9 +2,9 @@
 
 std::string PhoneBook::truncateString(const std::string& str, int maxLength) const 
 {
-	if (str.length() <= (unsigned long)maxLength)
+	if (str.length() <= (unsigned int)maxLength)
 		return str;
-	else 
+	else
 		return str.substr(0, maxLength - 1) + ".";
 }
 
@@ -13,27 +13,45 @@ Contact PhoneBook::getContact(int ix) const
 	return (this->contacts[ix]);
 }
 
-void PhoneBook::addContact() 
+std::string getInput(const std::string& fieldName)
 {
-	std::string firstName, lastName, nickname, phoneNumber, darkestSecret;
-	std::cout << "First Name: ";
-	std::cin >> firstName;
-	std::cout << "Last Name: ";
-	std::cin >> lastName;
-	std::cout << "Nickname: ";
-	std::cin >> nickname;
-	std::cout << "Phone Number: ";
-	std::cin >> phoneNumber;
-	std::cout << "Darkest Secret: ";
-	std::cin >> darkestSecret;
+    std::string input;
+    while (true)
+    {
+        std::cout << fieldName << ": ";
+        std::getline(std::cin, input);
+	    bool isWhitespaceOnly = true;
+        for (int i = 0; i < (int)input.length(); ++i)
+        {
+            if (!std::isspace(input[i]))
+            {
+                isWhitespaceOnly = false;
+                break;
+            }
+        }
+        if (!input.empty() && !isWhitespaceOnly)
+            break;
+        std::cout << "Input cannot be empty. Please try again." << std::endl;
+    }
+    return (input);
+}
 
-	if (numContacts == MAX_CONTACTS) 
-	{
-		contacts[numContacts - 1] = Contact(firstName, lastName, nickname, phoneNumber, darkestSecret);
-		return;
-	}
-	contacts[numContacts] = Contact(firstName, lastName, nickname, phoneNumber, darkestSecret);
-	numContacts++;
+void PhoneBook::addContact()
+{
+    std::string firstName = getInput("First Name");
+    std::string lastName = getInput("Last Name");
+    std::string nickname = getInput("Nickname");
+    std::string phoneNumber = getInput("Phone Number");
+    std::string darkestSecret = getInput("Darkest Secret");
+
+    if (numContacts == MAX_CONTACTS)
+    {
+        contacts[numContacts - 1] = Contact(firstName, lastName, nickname, phoneNumber, darkestSecret);
+        return;
+    }
+
+    contacts[numContacts] = Contact(firstName, lastName, nickname, phoneNumber, darkestSecret);
+    numContacts++;
 }
 
 void PhoneBook::displayContacts() const 
@@ -63,34 +81,46 @@ void PhoneBook::displayContacts() const
 
 int PhoneBook::searchContact() const
 {
-	int index;
-	int found;
+    std::string input;
 
-	found = 0;
-	while (!found)
+	if (!numContacts)
 	{
-		std::cout << "Enter the index of the contact to display: ";
-	
-		if (!(std::cin >> index))
-		{
-			if (std::cin.eof())
-				return (0);
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "Invalid index. Contact not found." << std::endl;
-			continue;
-		}
-		if (index > 0 && index <= numContacts) 
-		{
-			std::cout << "First Name: " << contacts[index - 1].getFirstName() << std::endl;
-			std::cout << "Last Name: " << contacts[index - 1].getLastName() << std::endl;
-			std::cout << "Nickname: " << contacts[index - 1].getNickname() << std::endl;
-			std::cout << "Phone Number: " << contacts[index - 1].getPhoneNumber() << std::endl;
-			std::cout << "Darkest Secret: " << contacts[index - 1].getDarkestSecret() << std::endl;
-			found = 1;
-		} 
-		else
-			std::cout << "Invalid index. Contact not found." << std::endl;
+		std::cout << "Phonebook empty" << std::endl;
+		return (1);
 	}
-	return (1);
+    while (1)
+    {
+        std::cout << "Enter the index of the contact to display: ";
+        std::getline(std::cin, input);
+
+        bool isDigit = true;
+        for (int i = 0; i < (int)input.length(); ++i)
+        {
+            if (!std::isdigit(input[i]))
+            {
+                isDigit = false;
+                break;
+            }
+        }
+
+        if (!isDigit)
+        {
+            std::cout << "Invalid index. Contact not found." << std::endl;
+            continue;
+        }
+
+        int index = std::atoi(input.c_str());
+        if (index > 0 && index <= numContacts)
+        {
+            std::cout << "First Name: " << contacts[index - 1].getFirstName() << std::endl;
+            std::cout << "Last Name: " << contacts[index - 1].getLastName() << std::endl;
+            std::cout << "Nickname: " << contacts[index - 1].getNickname() << std::endl;
+            std::cout << "Phone Number: " << contacts[index - 1].getPhoneNumber() << std::endl;
+            std::cout << "Darkest Secret: " << contacts[index - 1].getDarkestSecret() << std::endl;
+            break;
+        }
+        else
+            std::cout << "Invalid index. Contact not found." << std::endl;
+    }
+    return (1);
 }
