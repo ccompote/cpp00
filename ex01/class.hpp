@@ -49,7 +49,7 @@ class PhoneBook
 
 		Contact getContact(int ix) const;
 
-		void addContact() ;
+		int addContact() ;
 
 		void displayContacts() const ;
 

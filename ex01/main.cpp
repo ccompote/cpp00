@@ -12,7 +12,10 @@ int main(void)
 		if (std::cin.eof())
 			break;
 		if (command == "ADD") 
-            phonebook.addContact();
+		{
+            if (!phonebook.addContact())
+				break;
+		}
 		else if (command == "SEARCH")
 		{
 			phonebook.displayContacts();

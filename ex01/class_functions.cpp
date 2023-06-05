@@ -20,6 +20,8 @@ std::string getInput(const std::string& fieldName)
     {
         std::cout << fieldName << ": ";
         std::getline(std::cin, input);
+        if (std::cin.eof())
+            return ("");
 	    bool isWhitespaceOnly = true;
         for (int i = 0; i < (int)input.length(); ++i)
         {
@@ -36,22 +38,33 @@ std::string getInput(const std::string& fieldName)
     return (input);
 }
 
-void PhoneBook::addContact()
+
+int PhoneBook::addContact()
 {
     std::string firstName = getInput("First Name");
+    if (firstName.empty())
+        return (0);
     std::string lastName = getInput("Last Name");
+    if (lastName.empty())
+        return (0);
     std::string nickname = getInput("Nickname");
+    if (nickname.empty())
+        return (0);
     std::string phoneNumber = getInput("Phone Number");
+    if (phoneNumber.empty())
+        return (0);
     std::string darkestSecret = getInput("Darkest Secret");
-
+    if (darkestSecret.empty())
+        return (0);
     if (numContacts == MAX_CONTACTS)
     {
         contacts[numContacts - 1] = Contact(firstName, lastName, nickname, phoneNumber, darkestSecret);
-        return;
+        return (0);
     }
 
     contacts[numContacts] = Contact(firstName, lastName, nickname, phoneNumber, darkestSecret);
     numContacts++;
+    return (1);
 }
 
 void PhoneBook::displayContacts() const 
@@ -92,7 +105,8 @@ int PhoneBook::searchContact() const
     {
         std::cout << "Enter the index of the contact to display: ";
         std::getline(std::cin, input);
-
+        if (std::cin.eof())
+            return (0);
         bool isDigit = true;
         for (int i = 0; i < (int)input.length(); ++i)
         {
