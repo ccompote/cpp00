@@ -1,4 +1,4 @@
-#include "class.hpp"
+#include "PhoneBook.hpp"
 
 std::string PhoneBook::truncateString(const std::string& str, int maxLength) const 
 {
@@ -6,11 +6,6 @@ std::string PhoneBook::truncateString(const std::string& str, int maxLength) con
 		return str;
 	else
 		return str.substr(0, maxLength - 1) + ".";
-}
-
-Contact PhoneBook::getContact(int ix) const
-{
-	return (this->contacts[ix]);
 }
 
 std::string getInput(const std::string& fieldName)
@@ -58,8 +53,8 @@ int PhoneBook::addContact()
         return (0);
     if (numContacts == MAX_CONTACTS)
     {
-        contacts[numContacts - 1] = Contact(firstName, lastName, nickname, phoneNumber, darkestSecret);
-        return (0);
+        contacts[0] = Contact(firstName, lastName, nickname, phoneNumber, darkestSecret);
+        return (1);
     }
 
     contacts[numContacts] = Contact(firstName, lastName, nickname, phoneNumber, darkestSecret);

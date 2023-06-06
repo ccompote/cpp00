@@ -6,13 +6,13 @@
 #    By: ccompote <ccompote@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/28 14:10:13 by ccompote          #+#    #+#              #
-#    Updated: 2023/06/01 13:45:50 by ccompote         ###   ########.fr        #
+#    Updated: 2023/06/05 15:45:07 by ccompote         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = c++
 
-SRCS =  main.cpp class_functions.cpp
+SRCS =  main.cpp PhoneBook.cpp Contact.cpp
 
 NAME =  phonebook
 
